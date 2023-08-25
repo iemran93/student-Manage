@@ -268,6 +268,10 @@ class SearchStudents(tk.Tk):
         self.table = Treeview(self)
         self.table.bind("<<TreeviewSelect>>", self.select_item)
         self.table.bind("<F1>", self.edit_student)
+        # label
+        self.label_info = tk.Label(
+            self, text="F1 للتعديل اختار الطالب ثم اضغط", background="lightblue")
+        self.label_info.pack(side="right")
         self.load_data()
 
     def load_data(self):
