@@ -166,9 +166,12 @@ class Treeview(ttk.Treeview):
     def __init__(self, parent):
         super().__init__(parent, columns=(
             "first", "second", "third", "fourth"), show="headings")
-        s = ttk.Style()
+        columns = ["first", "second", "third", "fourth"]
+        for col in columns:
+            self.column(col, anchor="center")
+        s = ttk.Style(self)
         s.theme_use('clam')
-        s.configure('Treeview.Heading', background="green")
+        s.configure('Treeview.Heading', background="orange")
         self.heading("first", text="Ac Number")
         self.heading("second", text="Name")
         self.heading("third", text="Class")
@@ -256,6 +259,8 @@ class ShowStudents(tk.Tk):
         btn.bind("<Button>", lambda event: (self.load_data("all",
                                                            place_ent.get()), top.destroy()))
 
+    def print(self):
+        
 
 class SearchStudents(tk.Tk):
     def __init__(self, ac_var, items):
