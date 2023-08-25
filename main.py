@@ -157,7 +157,7 @@ class App(tk.Tk):
         if "data.xlsx" in glob.glob("*.xlsx"):
             df = pd.read_excel("data.xlsx")
             conn = ConnectSQL().connect()
-            df.to_sql("students", conn, if_exists="replace", index=False)
+            df.to_sql("students", conn, if_exists="append", index=False)
             conn.close()
             messagebox.showinfo("Done", "تم ادخال البيانات")
 
