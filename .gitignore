@@ -1,3 +1,7 @@
 .vscode
 .idea
 .venv
+data.xlsx
+note.txt
+students.db
+test.py

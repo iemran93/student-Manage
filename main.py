@@ -181,7 +181,9 @@ class ShowStudents(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title("Students Table")
-        self.geometry("800x600")
+        width = int((self.winfo_screenwidth() / 2) - 400)
+        height = int((self.winfo_screenheight() / 2) - 300)
+        self.geometry(f"800x600+{width}+{height}")
         # self.resizable(False, False)
 
         self.table = Treeview(self)
@@ -228,7 +230,7 @@ class ShowStudents(tk.Tk):
 
     def choose_class(self):
         top = tk.Toplevel(self)
-        top.geometry("300x75+100+100")
+        top.geometry("300x80+700+400")
         top.title("Select Class")
         class_ent = tk.Entry(top, width=15, justify="right")
         btn = tk.Button(top, text="اختيار")
@@ -239,7 +241,7 @@ class ShowStudents(tk.Tk):
 
     def choose_place(self):
         top = tk.Toplevel(self)
-        top.geometry("300x75+100+100")
+        top.geometry("300x75+700+400")
         top.title("Select Place")
         place_ent = tk.Entry(top, width=15, justify="right")
         add_bidi_support(place_ent)
@@ -254,7 +256,9 @@ class SearchStudents(tk.Tk):
     def __init__(self, ac_var, items):
         super().__init__()
         self.title("Students Search")
-        self.geometry("800x600")
+        width = int((self.winfo_screenwidth() / 2) - 400)
+        height = int((self.winfo_screenheight() / 2) - 300)
+        self.geometry(f"800x600+{width}+{height}")
         self.resizable(False, False)
         self.places = items
 
@@ -289,7 +293,9 @@ class EditStudent(tk.Tk):
     def __init__(self, item, places):
         super().__init__()
         self.title("Edit Student")
-        self.geometry("400x200")
+        width = int((self.winfo_screenwidth() / 2) - 200)
+        height = int((self.winfo_screenheight() / 2) - 100)
+        self.geometry(f"400x200+{width}+{height}")
         self.resizable(False, False)
         # data
         self.ac_num = item[0]
@@ -308,7 +314,7 @@ class EditStudent(tk.Tk):
         self.name_ent = tk.Entry(self, justify="right")
         self.name_ent.pack(expand=True)
         add_bidi_support(self.name_ent)
-        self.name_ent.insert(0, render_text(self.name))
+        self.name_ent.insert(0, self.name)
 
         self.class_ent = tk.Entry(self, justify="right")
         self.class_ent.pack(expand=True)
