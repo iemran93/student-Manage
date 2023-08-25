@@ -204,6 +204,8 @@ class ShowStudents(tk.Tk):
         # load all data
         if class_ == "all":
             if not place:
+                for item in self.table.get_children():
+                    self.table.delete(item)
                 result = connection.execute("SELECT * FROM students")
                 for row_data in result:
                     self.table.insert(parent="", index=tk.END, values=row_data)
@@ -230,23 +232,26 @@ class ShowStudents(tk.Tk):
 
     def choose_class(self):
         top = tk.Toplevel(self)
-        top.geometry("300x80+700+400")
+        top.geometry("300x100+700+400")
         top.title("Select Class")
         class_ent = tk.Entry(top, width=15, justify="right")
         btn = tk.Button(top, text="اختيار")
-        class_ent.pack()
+        label_info = tk.Label(
+            top, text="all لعرض كل الصفوف ادخل", background="lightyellow")
+        class_ent.pack(pady=10)
         btn.pack()
+        label_info.pack(pady=10)
         btn.bind("<Button>", lambda event: (self.load_data(
             class_ent.get()), top.destroy()))
 
     def choose_place(self):
         top = tk.Toplevel(self)
-        top.geometry("300x75+700+400")
+        top.geometry("300x90+700+400")
         top.title("Select Place")
         place_ent = tk.Entry(top, width=15, justify="right")
         add_bidi_support(place_ent)
         btn = tk.Button(top, text="اختيار")
-        place_ent.pack()
+        place_ent.pack(pady=10)
         btn.pack()
         btn.bind("<Button>", lambda event: (self.load_data("all",
                                                            place_ent.get()), top.destroy()))
@@ -270,7 +275,7 @@ class SearchStudents(tk.Tk):
         self.table.bind("<F1>", self.edit_student)
         # label
         self.label_info = tk.Label(
-            self, text="F1 للتعديل اختار الطالب ثم اضغط", background="lightblue")
+            self, text="F1 للتعديل اختار الطالب ثم اضغط", background="lightyellow")
         self.label_info.pack(side="right")
         self.load_data()
 
