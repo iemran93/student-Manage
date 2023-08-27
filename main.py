@@ -195,9 +195,12 @@ class ShowStudents(tk.Tk):
             self, text="حسب الصف", background="lightblue", command=self.choose_class)
         self.button_place = tk.Button(
             self, text="حسب المكان", background="lightblue", command=self.choose_place)
+        self.button_print = tk.Button(
+            self, text="طباعة", background="red", command=self.choose_print)
         # layout
         self.button_class.pack(side="right")
         self.button_place.pack(side="right")
+        self.button_print.pack(side="right")
         # class var
 
         self.load_data()
@@ -259,8 +262,41 @@ class ShowStudents(tk.Tk):
         btn.bind("<Button>", lambda event: (self.load_data("all",
                                                            place_ent.get()), top.destroy()))
 
-    def print(self):
-        
+    def choose_print(self):
+        top = tk.Toplevel(self)
+        top.title("Choose type")
+        top.geometry("300x90+700+400")
+        btn_class = tk.Button(top, text="حسب الصف",
+                              command=lambda: self.print_pdf("class"))
+        btn_place = tk.Button(top, text="حسب المكان",
+                              command=lambda: self.print_pdf("place"))
+        btn_class.place(relx=0.5, relheight=1, relwidth=0.5, anchor="nw")
+        btn_place.place(relx=0, relheight=1, relwidth=0.5, anchor="nw")
+
+    def print_pdf(self, type):
+        conn = ConnectSQL().connect()
+        cursor = conn.cursor()
+        results = cursor.execute("SELECT * FROM students")
+        data = results.fetchall()
+        if type == "class":
+            classes = (list(set([stu[2] for stu in data])))
+            dic_ = {class_: [] for class_ in classes}
+            for student in data:
+                for class_ in dic_:
+                    if student[2] == class_:
+                        dic_[class_].append(student)
+            print(dic_)
+        elif type == "place":
+            places = (list(set([stu[3] for stu in data])))
+            dic_ = {place: [] for place in places}
+            for student in data:
+                for place in dic_:
+                    if student[3] == place:
+                        dic_[place].append(student)
+            print(dic_)
+        cursor.close()
+        conn.close()
+
 
 class SearchStudents(tk.Tk):
     def __init__(self, ac_var, items):
@@ -369,6 +405,10 @@ class EditStudent(tk.Tk):
         messagebox.showinfo("ShowInfo", "تم التعديل")
         self.status_finish = True
         self.destroy()
+
+
+class PrintPDF():
+    pass
 
 
 if __name__ == '__main__':
