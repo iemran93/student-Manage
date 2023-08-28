@@ -2,14 +2,16 @@ import sqlite3
 import tkinter as tk
 from tkinter import ttk, messagebox, Menu
 from PIL import ImageTk
-from awesometkinter.bidirender import add_bidi_support, render_text
+from awesometkinter.bidirender import add_bidi_support
 import pendulum
 from random import choice
 import glob
 import pandas as pd
-
+import time
 
 # connection
+
+
 class ConnectSQL():
     def __init__(self, database_file="students.db"):
         self.databas_file = database_file
@@ -124,6 +126,10 @@ class App(tk.Tk):
                 connection.commit()
                 cursor.close()
                 connection.close()
+                # clear entries
+                time.sleep(1)
+                self.name_var.set("")
+                self.class_var.set("")
             else:
                 messagebox.showinfo("Showinfo", "ادخل اسم الطالب والشعبة")
         except sqlite3.IntegrityError:
@@ -285,7 +291,7 @@ class ShowStudents(tk.Tk):
                 for class_ in dic_:
                     if student[2] == class_:
                         dic_[class_].append(student)
-            print(dic_)
+            # print(dic_)
         elif type == "place":
             places = (list(set([stu[3] for stu in data])))
             dic_ = {place: [] for place in places}
@@ -293,7 +299,7 @@ class ShowStudents(tk.Tk):
                 for place in dic_:
                     if student[3] == place:
                         dic_[place].append(student)
-            print(dic_)
+            # print(dic_)
         cursor.close()
         conn.close()
 
@@ -405,10 +411,6 @@ class EditStudent(tk.Tk):
         messagebox.showinfo("ShowInfo", "تم التعديل")
         self.status_finish = True
         self.destroy()
-
-
-class PrintPDF():
-    pass
 
 
 if __name__ == '__main__':

@@ -5,3 +5,10 @@ data.xlsx
 note.txt
 students.db
 test.py
+assets/sp-lotus.ttf
+assets/sp-lotus.pkl
+assets/sp-lotus.cw127.pkl
+__pycache__/PDFtemplate.cpython-311.pyc
+sample.pdf
+PrintPDF.py
+PDFtemplate.py
