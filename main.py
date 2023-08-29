@@ -211,7 +211,7 @@ class Treeview(ttk.Treeview):
         self.heading("first", text="Ac Number")
         self.heading("second", text="Name")
         self.heading("third", text="Class")
-        self.heading("fourth", text="Plcae")
+        self.heading("fourth", text="Place")
 
         self.pack(fill="both", expand=True)
 
