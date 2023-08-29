@@ -35,15 +35,22 @@ class App(tk.Tk):
         self.ac_var = tk.IntVar(value=2021)
         self.class_var = tk.StringVar()
         self.date_var = tk.StringVar(value=date)
-        # combobox
-        self.items = ["مكتب خدمة المجتمع", "الاشراف", "الادارة"]
-        self.place_var = tk.StringVar(value=self.items[0])
+
         # menubar
         menubar = Menu(self)
         filemenu = Menu(menubar, tearoff=0)
         filemenu.add_command(label="Insert", command=self.insert_data)
+        filemenu.add_separator()
+        filemenu.add_command(label="Add Places", command=self.add_places_menu)
         menubar.add_cascade(label="File", menu=filemenu)
         self.configure(menu=menubar)
+        # insert places from txt
+        data_txt = open("assets\places.txt", 'r',
+                        encoding="utf-8").read().split("\n")
+        self.items = data_txt
+        # combobox
+        # self.items = ["مكتب خدمة المجتمع", "الاشراف", "الادارة"]
+        self.place_var = tk.StringVar(value=self.items[0])
 
         self.widgets()
         self.layout()
@@ -172,6 +179,23 @@ class App(tk.Tk):
         connection.commit()
         cursor.close()
         connection.close()
+
+    def add_places_menu(self):
+        top = tk.Toplevel(self)
+        top.title("Add Places")
+        top.geometry("300x100+600+400")
+        top.grab_set()
+        entry_plc = tk.Entry(top, width=30, justify="right")
+        add_bidi_support(entry_plc)
+        btn = tk.Button(top,
+                        text="ادخال",
+                        command=lambda: self.add_place(entry_plc.get()))
+        entry_plc.pack(pady=10)
+        btn.pack()
+
+    def add_place(self, new_place):
+        with open("assets\places.txt", 'a', encoding="utf-8") as file:
+            file.write(new_place + "\n")
 
 
 class Treeview(ttk.Treeview):
