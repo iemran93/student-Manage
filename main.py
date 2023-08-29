@@ -7,11 +7,11 @@ import pendulum
 from random import choice
 import glob
 import pandas as pd
+import threading
 import time
 
-# connection
 
-
+# connection sql
 class ConnectSQL():
     def __init__(self, database_file="students.db"):
         self.databas_file = database_file
@@ -115,19 +115,12 @@ class App(tk.Tk):
     def add_student(self):
         try:
             if self.class_var.get() and self.name_var.get():
-                name = self.name_var.get()
-                ac_id = self.ac_var.get()
-                place = self.place_var.get()
-                class_ = self.class_var.get()
-                connection = ConnectSQL().connect()
-                cursor = connection.cursor()
-                cursor.execute(
-                    "INSERT INTO students (AcNum,Name,Class,Place) VALUES(?,?,?,?)", (ac_id, name, class_, place))
-                connection.commit()
-                cursor.close()
-                connection.close()
+                x = threading.Thread(
+                    target=self.add_to_database(), daemon=True)
+                x.start()
+                x.join()
                 # clear entries
-                time.sleep(1)
+                time.sleep(0.5)
                 self.name_var.set("")
                 self.class_var.set("")
             else:
@@ -166,6 +159,19 @@ class App(tk.Tk):
             df.to_sql("students", conn, if_exists="append", index=False)
             conn.close()
             messagebox.showinfo("Done", "تم ادخال البيانات")
+
+    def add_to_database(self):
+        name = self.name_var.get()
+        ac_id = self.ac_var.get()
+        place = self.place_var.get()
+        class_ = self.class_var.get()
+        connection = ConnectSQL().connect()
+        cursor = connection.cursor()
+        cursor.execute(
+            "INSERT INTO students (AcNum,Name,Class,Place) VALUES(?,?,?,?)", (ac_id, name, class_, place))
+        connection.commit()
+        cursor.close()
+        connection.close()
 
 
 class Treeview(ttk.Treeview):
