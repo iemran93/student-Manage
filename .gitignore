@@ -3,7 +3,6 @@
 .venv
 data.xlsx
 note.txt
-students.db
 test.py
 assets/sp-lotus.ttf
 assets/sp-lotus.pkl

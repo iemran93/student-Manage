@@ -13,7 +13,7 @@ import time
 
 # connection sql
 class ConnectSQL():
-    def __init__(self, database_file="students.db"):
+    def __init__(self, database_file="assets\students.db"):
         self.databas_file = database_file
 
     def connect(self):
